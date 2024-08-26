@@ -560,7 +560,8 @@ class APIHandler(BaseHandler):
         return data
 
     def options(self, *args, **kwargs):
-        self.finish()
+        # self.finish()
+        pass
 
 
 class API404(APIHandler):

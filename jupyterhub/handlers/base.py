@@ -114,7 +114,7 @@ class BaseHandler(RequestHandler):
         ):
             self.check_xsrf_cookie()
 
-    async def options(self):
+    async def options(self, *args, **kwargs):
         """
         Set any headers passed as tornado_settings['headers'].
 
