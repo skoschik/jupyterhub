@@ -118,6 +118,9 @@ class LoginHandler(BaseHandler):
             custom_html=custom_html,
         )
 
+    async def options(self):
+        pass
+
     async def get(self):
         self.statsd.incr('login.request')
         user = self.current_user

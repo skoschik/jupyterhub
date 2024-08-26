@@ -114,6 +114,27 @@ class BaseHandler(RequestHandler):
         ):
             self.check_xsrf_cookie()
 
+    async def options(self):
+        """
+        Set any headers passed as tornado_settings['headers'].
+
+        Also responsible for setting content-type header
+        """
+        headers = HTTPHeaders(self.settings.get('headers', {}))
+        headers.setdefault("X-JupyterHub-Version", __version__)
+
+        for header_name, header_content in headers.items():
+            self.set_header(header_name, header_content)
+
+        if 'Access-Control-Allow-Headers' not in headers:
+            self.set_header(
+                'Access-Control-Allow-Headers', 'accept, content-type, authorization'
+            )
+
+        self.set_status(204)
+
+        self.finish()
+
     @property
     def log(self):
         """I can't seem to avoid typing self.log"""
