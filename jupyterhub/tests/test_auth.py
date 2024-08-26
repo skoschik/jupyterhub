@@ -1237,3 +1237,26 @@ async def test_authenticator_without_allow_all(
 
     assert are_allowed == expected_allowed
     assert are_not_allowed == expected_not_allowed
+
+
+async def test_options_request_login_url(app):
+    with mock.patch.dict(
+        app.tornado_settings,
+        {
+            "authenticator": auth.NullAuthenticator(parent=app),
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+            },
+        },
+    ):
+        r = await async_requests.options(
+            public_url(app), headers={'Authorization': 'Bearer testtoken'}
+        )
+
+        # Verify the response status code
+        assert r.status_code == 204
+
+        # Verify the necessary CORS headers are set
+        assert r.headers.get("Access-Control-Allow-Origin") == "*"
+        assert r.headers.get("Access-Control-Allow-Methods") == "POST, OPTIONS"
