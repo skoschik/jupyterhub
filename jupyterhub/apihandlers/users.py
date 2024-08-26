@@ -82,6 +82,9 @@ class SelfAPIHandler(APIHandler):
         model["scopes"] = sorted(self.expanded_scopes.difference(_added_scopes))
         self.write(json.dumps(model))
 
+    async def options(self):
+        pass
+
 
 class UserListAPIHandler(APIHandler):
     def _user_has_ready_spawner(self, orm_user):
