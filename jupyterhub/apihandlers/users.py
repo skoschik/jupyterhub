@@ -284,6 +284,8 @@ class UserListAPIHandler(APIHandler):
         self.write(json.dumps([self.user_model(u) for u in created]))
         self.set_status(201)
 
+    async def options(self):
+        pass
 
 class UserAPIHandler(APIHandler):
     @needs_scope(
@@ -403,6 +405,8 @@ class UserAPIHandler(APIHandler):
         user_ = self.user_model(user)
         user_['auth_state'] = await user.get_auth_state()
         self.write(json.dumps(user_))
+    async def options(self):
+        pass
 
 
 class UserTokenListAPIHandler(APIHandler):
@@ -559,6 +563,9 @@ class UserTokenListAPIHandler(APIHandler):
         self.write(json.dumps(token_model))
         self.set_status(201)
 
+    async def options(self):
+        pass
+
 
 class UserTokenAPIHandler(APIHandler):
     """API endpoint for retrieving/deleting individual tokens"""
@@ -616,6 +623,9 @@ class UserTokenAPIHandler(APIHandler):
         self.db.commit()
         self.set_header('Content-Type', 'text/plain')
         self.set_status(204)
+
+    async def options(self):
+        pass
 
 
 class UserServerAPIHandler(APIHandler):
@@ -744,6 +754,9 @@ class UserServerAPIHandler(APIHandler):
         status = 202 if spawner._stop_pending else 204
         self.set_header('Content-Type', 'text/plain')
         self.set_status(status)
+
+    async def options(self):
+        pass
 
 
 class UserAdminAccessAPIHandler(APIHandler):
@@ -920,6 +933,8 @@ class SpawnProgressAPIHandler(APIHandler):
                 )
             await self.send_event(failed_event)
 
+    async def options(self):
+        pass
 
 def _parse_timestamp(timestamp):
     """Parse and return a utc timestamp
